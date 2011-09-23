@@ -17,26 +17,26 @@ namespace PharmacyDuty
             string result = string.Empty;
             string Url = @"http://www.fsa.gr/duties.asp";
 
-            Encoding en = Encoding.GetEncoding("iso-8859-7");
+            Encoding GreekEncoding = Encoding.GetEncoding("iso-8859-7");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
             
             request.Method = "GET";
 
             using (var stream = request.GetResponse().GetResponseStream())
 
-            using (var reader = new StreamReader(stream, en))
+            using (var reader = new StreamReader(stream, GreekEncoding))
             {
                 result = reader.ReadToEnd();
             }
             string filepath = @"C:\Work.Bench\PharmacyDuty\PharmacyDuty\pharmaciesRequest.html";
             //iso8859-7
-            using (System.IO.TextWriter writeFile = new StreamWriter(filepath,true, en))
+            using (System.IO.TextWriter writeFile = new StreamWriter(filepath,true, GreekEncoding))
             {
                 writeFile.Write(result);
             }
 
             HtmlDocument doc = new HtmlDocument();
-            doc.Load(filepath,en);
+            doc.Load(filepath,GreekEncoding);
 
             return doc;
         }
