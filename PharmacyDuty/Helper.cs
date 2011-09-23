@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using HtmlAgilityPack;
+using System.Configuration;
 
 namespace PharmacyDuty
 {
@@ -28,7 +29,7 @@ namespace PharmacyDuty
             {
                 result = reader.ReadToEnd();
             }
-            string filepath = @"C:\Work.Bench\PharmacyDuty\PharmacyDuty\pharmaciesRequest.html";
+            string filepath = ConfigurationManager.AppSettings.Get("HtmlSourceFilePath");
             //iso8859-7
             using (System.IO.TextWriter writeFile = new StreamWriter(filepath,true, GreekEncoding))
             {
