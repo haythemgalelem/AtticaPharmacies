@@ -18,7 +18,7 @@ namespace PharmacyDuty
             List<AvailableDates> DateKeys = new List<AvailableDates>();
             foreach (var item in rawDates)
             {
-                DateKeys.Add(new AvailableDates { _ShortDateString = item.ToString() });
+                DateKeys.Add(new AvailableDates { _ShortDateString = item.Trim().ToString() });
             }
             return DateKeys;
         }

@@ -17,24 +17,35 @@ namespace PharmacyDuty
     // [System.Web.Script.Services.ScriptService]
     public class Service1 : System.Web.Services.WebService
     {
+        private static readonly string Url = @"http://www.fsa.gr/duties.asp";
+
         [WebMethod]
         public List<AthensArea> GetAvailableAthensAreas()
         {
-            return AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtmlAndCreateFile());
+            List<AthensArea> result = new List<AthensArea>();
+            try
+            {
+                result = AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtml(Url));
+            }
+            catch (Exception e)
+            {
+                //log this
+            }
+            return result;
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableAthensAreas()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtmlAndCreateFile()));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtml(Url)));
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableDates()
         {
-            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.DownloadHtmlAndCreateFile()));
+            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.DownloadHtml(Url)));
             return result;
         }
 
@@ -42,8 +53,14 @@ namespace PharmacyDuty
         [WebMethod]
         public List<AvailableDates> GetAvailableDates()
         {
-            return AvailableDates.ReadDatesFromHtml(Helper.DownloadHtmlAndCreateFile());
+            return AvailableDates.ReadDatesFromHtml(Helper.DownloadHtml(Url));
         }
 
+        [WebMethod]
+        public List<OnDutyPharmacy> GetPharmaciesOnDuty(string Date, int AreaID)
+        {
+            return OnDutyPharmacy.GetPharmaciesOnDuty(Helper.DownloadHtmlWithResults(Url, @"30/1/2012", 12));
+            //return OnDutyPharmacy.GetPharmaciesOnDuty(Helper.DownloadHtmlWithResults(Url, Date, AreaID));
+        }
     }
 }
