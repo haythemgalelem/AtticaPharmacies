@@ -66,10 +66,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AthensArea.cs" />
-    <Compile Include="AvailableDates.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="PharmacyOnDuty.cs" />
+    <Compile Include="Lib\AthensArea.cs" />
+    <Compile Include="Lib\AvailableDates.cs" />
+    <Compile Include="Lib\Config.cs" />
+    <Compile Include="Lib\Helper.cs" />
+    <Compile Include="Lib\PharmacyOnDuty.cs" />
     <Compile Include="Service1.asmx.cs">
       <DependentUpon>Service1.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -78,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Lib\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

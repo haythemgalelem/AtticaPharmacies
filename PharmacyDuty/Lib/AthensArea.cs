@@ -14,7 +14,6 @@ namespace PharmacyDuty
 
         public static List<AthensArea> ReadAthensAreaFromHtml(HtmlDocument doc)
         {
-
             try
             {
                 List<AthensArea> Result = new List<AthensArea>();

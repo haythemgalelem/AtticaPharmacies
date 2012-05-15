@@ -16,25 +16,36 @@ namespace PharmacyDuty
           Περιοχή	  
           Τηλέφωνο */
 
-        public string Pharmacist { get; set; }
-        public string Address { get; set; }
-        public string AthensArea { get; set; }
-        public string TelNum { get; set; }
-        public string OpeningHours { get; set; }
+        public string Pharmacist { get; private set; }
+        public string Address { get; private set; }
+        public string AthensArea { get; private set; }
+        public string TelNum { get; private set; }
+        public string OpeningHours { get; private set; }
 
         public static List<PharmacyOnDuty> GetPharmaciesOnDuty(HtmlDocument doc)
         {
             List<PharmacyOnDuty> Result = new List<PharmacyOnDuty>();
-
-            HtmlNode root = doc.DocumentNode;
             var Urls = doc.DocumentNode.Descendants("a").Where(y => y.Attributes["class"].Value == "greenlink").Select(z => z.Attributes["onclick"].Value).ToList();
-            List<string> UrlsToAppend = new List<string>();
-            
+            List<string> ResultsUrls = new List<string>();
+
             foreach (string js in Urls)
-                UrlsToAppend.Add(js.Split('\'')[1]);
+            {
+                ResultsUrls.Add(PharmacyDuty.Lib.Config.FSABaseUrl + js.Split('\'')[1]);
+                
+            }
 
-
+            EnumerateResults(ResultsUrls);
             return Result;
+
+        }
+
+        private static void EnumerateResults(List<string> UrlsToScrap)
+        {
+            foreach (string Url in UrlsToScrap)
+            {
+                HtmlDocument doc = Helper.ScrapResponse(Url);
+                var r = doc.DocumentNode.Descendants("td").Where(y => y.Attributes["class"].Value == "txt10dgreen");
+            }
 
         }
     }

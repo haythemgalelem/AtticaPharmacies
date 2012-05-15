@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
+using PharmacyDuty.Lib;
 
 namespace PharmacyDuty
 {
@@ -23,11 +24,12 @@ namespace PharmacyDuty
             List<AthensArea> result = new List<AthensArea>();
             try
             {
-                result = AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp"));
+                result = AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage));
             }
             catch (Exception e)
             {
-                //log this
+                //I should log this
+                // and do something about it
             }
             return result;
         }
@@ -36,14 +38,14 @@ namespace PharmacyDuty
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableAthensAreas()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp")));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage)));
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableDates()
         {
-            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp")));
+            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage)));
             return result;
         }
 
@@ -51,7 +53,17 @@ namespace PharmacyDuty
         [WebMethod]
         public List<AvailableDates> GetAvailableDates()
         {
-            return AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp"));
+            List<AvailableDates> Result = new List<AvailableDates>();
+            try
+            {
+                Result = AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage));
+            }
+            catch (Exception)
+            {
+                //I should log this
+                // and do something about it
+            }
+            return Result;
         }
 
         [WebMethod]
@@ -59,6 +71,7 @@ namespace PharmacyDuty
         {
             //http://www.fsa.gr/duties.asp?dateduty=30/1/2012&areaid=12
             //string Url = @"http://www.fsa.gr/duties.asp?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id;
+            //Config.FSABaseUrl+Config.FSAShow+"?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id"
             string Url = @"http://www.fsa.gr/duties.asp?dateduty=15/5/2012&areaid=12";
 
             return PharmacyOnDuty.GetPharmaciesOnDuty(Helper.ScrapResponse(Url));
