@@ -29,11 +29,10 @@ namespace PharmacyDuty
             HtmlNode root = doc.DocumentNode;
             var Urls = doc.DocumentNode.Descendants("a").Where(y => y.Attributes["class"].Value == "greenlink").Select(z => z.Attributes["onclick"].Value).ToList();
             List<string> UrlsToAppend = new List<string>();
+            
             foreach (string js in Urls)
-            {
-                string [] tmp = js.Split('\'');
-                UrlsToAppend.Add(tmp[1]);
-            }
+                UrlsToAppend.Add(js.Split('\'')[1]);
+
 
             return Result;
 

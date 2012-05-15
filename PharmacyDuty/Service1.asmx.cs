@@ -58,7 +58,6 @@ namespace PharmacyDuty
         public List<PharmacyOnDuty> GetPharmaciesOnDuty(AthensArea Area, AvailableDates Date)
         {
             //http://www.fsa.gr/duties.asp?dateduty=30/1/2012&areaid=12
-
             //string Url = @"http://www.fsa.gr/duties.asp?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id;
             string Url = @"http://www.fsa.gr/duties.asp?dateduty=15/5/2012&areaid=12";
 
