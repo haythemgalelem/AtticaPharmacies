@@ -9,7 +9,7 @@ namespace PharmacyDuty
 {
     public class AthensArea
     {
-        public int _id { get; set; }
+        public int _id { get; private set; }
         public string _description { get; set; }
 
         public static List<AthensArea> ReadAthensAreaFromHtml(HtmlDocument doc)
