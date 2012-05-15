@@ -53,6 +53,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="pharmaciesRequest.html" />
     <Content Include="Service1.asmx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -68,7 +69,7 @@
     <Compile Include="AthensArea.cs" />
     <Compile Include="AvailableDates.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="OnDutyPharmacy.cs" />
+    <Compile Include="PharmacyOnDuty.cs" />
     <Compile Include="Service1.asmx.cs">
       <DependentUpon>Service1.asmx</DependentUpon>
       <SubType>Component</SubType>

@@ -13,21 +13,22 @@ namespace PharmacyDuty
 {
     public static class Helper
     {
-        
-        public static HtmlDocument DownloadHtml(string Url)
+        public static HtmlDocument ScrapResponse(string Url)
         {
             string result = string.Empty;
+            
 
-            Encoding GreekEncoding;
-            HttpWebRequest request;
-            CreateWebRequest(Url, out GreekEncoding, out request);
+            Encoding GreekEncoding = Encoding.GetEncoding("iso-8859-7");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            WebProxy prx = WebProxy.GetDefaultProxy();
+            prx.UseDefaultCredentials = true;
+            request.Proxy = prx;
+            
+            request.UseDefaultCredentials = true; 
+
             HtmlDocument doc = new HtmlDocument();
 
-            return CreateHtmlDoc(ref result, GreekEncoding, request, doc);
-        }
-
-        private static HtmlDocument CreateHtmlDoc(ref string result, Encoding GreekEncoding, HttpWebRequest request, HtmlDocument doc)
-        {
+            request.Method = "GET";
             using (var stream = request.GetResponse().GetResponseStream())
 
             using (var reader = new StreamReader(stream, GreekEncoding))
@@ -37,26 +38,6 @@ namespace PharmacyDuty
 
             doc.LoadHtml(result);
             return doc;
-        }
-        private static void CreateWebRequest(string Url, out Encoding GreekEncoding, out HttpWebRequest request)
-        {
-            GreekEncoding = Encoding.GetEncoding("iso-8859-7");
-            request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Method = "GET";
-        }
-
-        public static HtmlDocument DownloadHtmlWithResults(string Url, string Date, int Areaid)
-        {
-            Encoding GreekEncoding;
-            HttpWebRequest request;
-            HtmlDocument doc = new HtmlDocument();
-            
-            string result = string.Empty;
-            string QryString = Url + @"?dateduty=" + Date + "&areaid=" + Areaid.ToString();
-
-            CreateWebRequest(QryString, out GreekEncoding, out request);
-
-            return CreateHtmlDoc(ref result, GreekEncoding, request, doc);
-        }
+            }
     }
 }

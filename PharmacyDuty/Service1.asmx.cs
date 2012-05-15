@@ -17,15 +17,13 @@ namespace PharmacyDuty
     // [System.Web.Script.Services.ScriptService]
     public class Service1 : System.Web.Services.WebService
     {
-        private static readonly string Url = @"http://www.fsa.gr/duties.asp";
-
         [WebMethod]
         public List<AthensArea> GetAvailableAthensAreas()
         {
             List<AthensArea> result = new List<AthensArea>();
             try
             {
-                result = AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtml(Url));
+                result = AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp"));
             }
             catch (Exception e)
             {
@@ -38,14 +36,14 @@ namespace PharmacyDuty
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableAthensAreas()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.DownloadHtml(Url)));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp")));
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableDates()
         {
-            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.DownloadHtml(Url)));
+            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp")));
             return result;
         }
 
@@ -53,14 +51,18 @@ namespace PharmacyDuty
         [WebMethod]
         public List<AvailableDates> GetAvailableDates()
         {
-            return AvailableDates.ReadDatesFromHtml(Helper.DownloadHtml(Url));
+            return AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(@"http://www.fsa.gr/duties.asp"));
         }
 
         [WebMethod]
-        public List<OnDutyPharmacy> GetPharmaciesOnDuty(string Date, int AreaID)
+        public List<PharmacyOnDuty> GetPharmaciesOnDuty(AthensArea Area, AvailableDates Date)
         {
-            return OnDutyPharmacy.GetPharmaciesOnDuty(Helper.DownloadHtmlWithResults(Url, @"30/1/2012", 12));
-            //return OnDutyPharmacy.GetPharmaciesOnDuty(Helper.DownloadHtmlWithResults(Url, Date, AreaID));
+            //http://www.fsa.gr/duties.asp?dateduty=30/1/2012&areaid=12
+
+            //string Url = @"http://www.fsa.gr/duties.asp?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id;
+            string Url = @"http://www.fsa.gr/duties.asp?dateduty=15/5/2012&areaid=12";
+
+            return PharmacyOnDuty.GetPharmaciesOnDuty(Helper.ScrapResponse(Url));
         }
     }
 }
