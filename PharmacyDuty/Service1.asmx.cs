@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
 using PharmacyDuty.Lib;
+using System.Text;
 
 namespace PharmacyDuty
 {
@@ -18,13 +19,17 @@ namespace PharmacyDuty
     // [System.Web.Script.Services.ScriptService]
     public class Service1 : System.Web.Services.WebService
     {
+        //Encoding GreekISO88597 = Encoding.GetEncoding("iso-8859-7");
+        //Encoding GreekUTF = new UTF8Encoding();
+
+
         [WebMethod]
         public List<AthensArea> GetAvailableAthensAreas()
         {
             List<AthensArea> result = new List<AthensArea>();
             try
             {
-                result = AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage));
+                result = AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage, Encoding.GetEncoding("iso-8859-7")));
             }
             catch (Exception e)
             {
@@ -38,17 +43,16 @@ namespace PharmacyDuty
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableAthensAreas()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage)));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(AthensArea.ReadAthensAreaFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage, Encoding.GetEncoding("iso-8859-7"))));
         }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string Json_GetAvailableDates()
         {
-            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage)));
+            string result = Newtonsoft.Json.JsonConvert.SerializeObject(AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage, Encoding.GetEncoding("iso-8859-7"))));
             return result;
         }
-
 
         [WebMethod]
         public List<AvailableDates> GetAvailableDates()
@@ -56,7 +60,7 @@ namespace PharmacyDuty
             List<AvailableDates> Result = new List<AvailableDates>();
             try
             {
-                Result = AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage));
+                Result = AvailableDates.ReadDatesFromHtml(Helper.ScrapResponse(Config.FSABaseUrl + Config.FSADutiesPage, Encoding.GetEncoding("iso-8859-7")));
             }
             catch (Exception)
             {
@@ -69,12 +73,19 @@ namespace PharmacyDuty
         [WebMethod]
         public List<PharmacyOnDuty> GetPharmaciesOnDuty(AthensArea Area, AvailableDates Date)
         {
-            //http://www.fsa.gr/duties.asp?dateduty=30/1/2012&areaid=12
-            //string Url = @"http://www.fsa.gr/duties.asp?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id;
-            //Config.FSABaseUrl+Config.FSAShow+"?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id"
-            string Url = @"http://www.fsa.gr/duties.asp?dateduty=15/5/2012&areaid=12";
-
-            return PharmacyOnDuty.GetPharmaciesOnDuty(Helper.ScrapResponse(Url));
+            //string Url = @"http://www.fsa.gr/duties.asp?dateduty=15/5/2012&areaid=12";
+            List<PharmacyOnDuty> Result = new List<PharmacyOnDuty>();
+            try
+            {
+                string Url = Config.FSABaseUrl + Config.FSADutiesPage + "?dateduty=" + Date._ShortDateString + "&areaid=" + Area._id;
+                Result  = PharmacyOnDuty.GetPharmaciesOnDuty(Helper.ScrapResponse(Url, new UTF8Encoding()));
+            }
+            catch (Exception)
+            {
+                //I should log this
+                // and do something about it
+            }
+            return Result;
         }
     }
 }

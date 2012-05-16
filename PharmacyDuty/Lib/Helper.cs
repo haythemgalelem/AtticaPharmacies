@@ -13,31 +13,36 @@ namespace PharmacyDuty
 {
     public static class Helper
     {
-        public static HtmlDocument ScrapResponse(string Url)
+        public static HtmlDocument ScrapResponse(string Url, Encoding GreekEncoding)
         {
-            string result = string.Empty;
-            
-
-            Encoding GreekEncoding = Encoding.GetEncoding("iso-8859-7");
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            WebProxy prx = WebProxy.GetDefaultProxy();
-            prx.UseDefaultCredentials = true;
-            request.Proxy = prx;
-            
-            request.UseDefaultCredentials = true; 
-
-            HtmlDocument doc = new HtmlDocument();
-
-            request.Method = "GET";
-            using (var stream = request.GetResponse().GetResponseStream())
-
-            using (var reader = new StreamReader(stream, GreekEncoding))
+            try
             {
-                result = reader.ReadToEnd();
-            }
+                string result = string.Empty;
 
-            doc.LoadHtml(result);
-            return doc;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+                WebProxy prx = WebProxy.GetDefaultProxy();
+                prx.UseDefaultCredentials = true;
+                request.Proxy = prx;
+                request.UseDefaultCredentials = true;
+
+                HtmlDocument doc = new HtmlDocument();
+
+                request.Method = "GET";
+                using (var stream = request.GetResponse().GetResponseStream())
+
+                using (var reader = new StreamReader(stream, GreekEncoding))
+                {
+                    result = reader.ReadToEnd();
+                }
+
+                doc.LoadHtml(result);
+                return doc;
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

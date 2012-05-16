@@ -8,7 +8,7 @@ namespace PharmacyDuty
 {
     public class AvailableDates
     {
-        public string _ShortDateString { get; private set; }
+        public string _ShortDateString { get; set; }
 
         public static List<AvailableDates> ReadDatesFromHtml(HtmlDocument doc)
         {
