@@ -15,7 +15,7 @@ namespace TestClient
             AthensArea[] Areas = client.GetAvailableAthensAreas();
             AvailableDates[] Dates = client.GetAvailableDates();
 
-            var result = client.GetPharmaciesOnDuty(Areas[80], Dates[2]);
+            var result = client.GetPharmaciesOnDuty(Areas[80], Dates[3]);
             
             
             Console.ReadLine();
