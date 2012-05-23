@@ -18,11 +18,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:1131/Service1.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:1131/PharmaOnDuty.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service1.disco" MetadataType="Disco" ID="bfbcea9b-f66f-4b28-9c08-8b66b7bfc812" SourceId="1" SourceUrl="http://localhost:1131/Service1.asmx?disco" />
-    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="71f76eff-98ac-4705-8493-715c12403e47" SourceId="1" SourceUrl="http://localhost:1131/Service1.asmx?wsdl" />
+    <MetadataFile FileName="PharmaOnDuty.wsdl" MetadataType="Wsdl" ID="99ea0019-021b-4686-86c9-f358b459b9aa" SourceId="1" SourceUrl="http://localhost:1131/PharmaOnDuty.asmx?wsdl" />
+    <MetadataFile FileName="PharmaOnDuty.disco" MetadataType="Disco" ID="27bb76ae-9cae-424b-9b90-98a206ccd285" SourceId="1" SourceUrl="http://localhost:1131/PharmaOnDuty.asmx?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
