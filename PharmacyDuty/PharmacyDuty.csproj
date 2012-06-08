@@ -64,6 +64,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Landing\img\fork_me.png" />
     <Content Include="Landing\img\polyester_lite.png" />
     <Content Include="PharmaOnDutyDoc.aspx" />
     <Content Include="Landing\Scripts\bootstrap.min.js" />
